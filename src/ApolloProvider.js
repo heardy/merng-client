@@ -1,3 +1,4 @@
+import pkg from '../package.json';
 import React from 'react';
 import App from './App';
 import ApolloClient from 'apollo-client';
@@ -6,8 +7,12 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
+const baseURI = process.env.NODE_ENV === 'production'
+  ? pkg.proxy
+  : 'http://localhost:5000';
+
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000'
+  uri: baseURI
 });
 
 const authLink = setContext(() => {
